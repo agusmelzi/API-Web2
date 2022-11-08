@@ -109,7 +109,6 @@ class apiSantoController
 
         $id = $params[':ID'];
         $santo = $this->model->getSanto($id);
-        var_dump($santo);
         if ($santo) {
             $santo = $this->getData();
             $this->model->editSanto(
@@ -125,45 +124,7 @@ class apiSantoController
 
         }
 
-        if (
-            empty($santo->nombre) || empty($santo->pais) || empty($santo->fecha_nacimiento)
-            || empty($santo->fecha_muerte) || empty($santo->fecha_canonizacion) || empty($santo->congregacion_fk)
-        ) {
-            $this->view->response("Complete los datos", 400);
-        } else {
-            $this->model->insertSanto(
-                $santo->nombre,
-                $santo->pais,
-                $santo->fecha_nacimiento,
-                $santo->fecha_muerte,
-                $santo->fecha_canonizacion,
-                $santo->congregacion_fk
-            );
-            $this->view->response($santo, 201);
-        }
-
-        $id = $_POST['id'];
-        $nombre = $_POST['nombre'];
-        $pais = $_POST['pais'];
-        $fecha_nac = $_POST['fecha_nacimiento'];
-        $fecha_muerte = $_POST['fecha_muerte'];
-        $fecha_canon = $_POST['fecha_canonizacion'];
-        $congregacion = $_POST['congregacion_fk'];
-        $name = $_FILES['imagen']['name'];
-        $tmp = $_FILES['imagen']['tmp_name'];
-        $type = $_FILES['imagen']['type'];
-
-        if ($name != '') {
-            if ($type == "image/jpg" || $type == "image/jpeg" || $type == "image/png") {
-                $this->model->updateSanto($id, $nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, $name, $tmp);
-            } else {
-                $this->model->updateSanto($id, $nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, $name);
-            }
-        } else {
-            $this->model->updateSanto($id, $nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion);
-        }
-
-        header(HOME);
+        
     }
 
     function delete($params = null)
