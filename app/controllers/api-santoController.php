@@ -102,10 +102,45 @@ class apiSantoController
         $congregaciones = $this->modelC->getCongregaciones();
         $santo = $this->model->editarSantos($param[0]);
         $this->view->editSaint($congregaciones, $santo);
-    }
+    }*/
 
-    function editarSanto()
+    function editarSanto($params = null)
     {
+
+        $id = $params[':ID'];
+        $santo = $this->model->getSanto($id);
+        var_dump($santo);
+        if ($santo) {
+            $santo = $this->getData();
+            $this->model->editSanto(
+                $santo->id,
+                $santo->nombre,
+                $santo->pais,
+                $santo->fecha_nacimiento,
+                $santo->fecha_muerte,
+                $santo->fecha_canonizacion,
+                $santo->congregacion_fk
+            );
+            $this->view->response($santo, 201);
+
+        }
+
+        if (
+            empty($santo->nombre) || empty($santo->pais) || empty($santo->fecha_nacimiento)
+            || empty($santo->fecha_muerte) || empty($santo->fecha_canonizacion) || empty($santo->congregacion_fk)
+        ) {
+            $this->view->response("Complete los datos", 400);
+        } else {
+            $this->model->insertSanto(
+                $santo->nombre,
+                $santo->pais,
+                $santo->fecha_nacimiento,
+                $santo->fecha_muerte,
+                $santo->fecha_canonizacion,
+                $santo->congregacion_fk
+            );
+            $this->view->response($santo, 201);
+        }
 
         $id = $_POST['id'];
         $nombre = $_POST['nombre'];
@@ -129,7 +164,7 @@ class apiSantoController
         }
 
         header(HOME);
-    }*/
+    }
 
     function delete($params = null)
     {

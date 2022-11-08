@@ -55,6 +55,24 @@ class santoModel
         //return $sentencia->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    function editSanto($id, $nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, $name = null, $tmp = null)
+    {
+
+
+        $sentencia = $this->db->prepare("UPDATE santo SET
+        nombre = ?,
+        pais = ?,
+        fecha_nacimiento = ?,
+        fecha_muerte = ?,
+        fecha_canonizacion = ?,
+        congregacion_fk = ?,
+        foto = ?,
+        fotoNombre = ?
+        WHERE id = ?");
+      $sentencia->execute(array($nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion,'', '', $id));
+
+    }
+
     function borrarSanto($id)
     {
 
