@@ -30,8 +30,15 @@ class apiSantoController
         $order = $_GET['order'];
         
         if (isset($attribute) && isset($order)) {
-            $santos = $this->model->getSantos($attribute, $order);
-            $this->view->response($santos);
+            if (($attribute == 'nombre' || $attribute == 'pais' || $attribute == 'fecha_nacimiento'
+            || $attribute == 'fecha_muerte' || $attribute == 'fecha_canonizacion') && 
+            ($order == 'asc' || $order == 'desc')) {
+                $santos = $this->model->getSantos($attribute, $order);
+                $this->view->response($santos);
+            } else {
+                $this->view->response("Atributo no válido en sort_by y/o en order", 400);
+            }
+            
         } else {
             $santos = $this->model->getSantos();
             $this->view->response($santos);
