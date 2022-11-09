@@ -28,18 +28,38 @@ class apiSantoController
     {
         $attribute = $_GET['sort_by'];
         $order = $_GET['order'];
+        $filter = $_GET['filter'];
+        $data = $_GET['input'];
         
         if (isset($attribute) && isset($order)) {
+
             if (($attribute == 'nombre' || $attribute == 'pais' || $attribute == 'fecha_nacimiento'
             || $attribute == 'fecha_muerte' || $attribute == 'fecha_canonizacion') && 
             ($order == 'asc' || $order == 'desc')) {
+
                 $santos = $this->model->getSantos($attribute, $order);
                 $this->view->response($santos);
+
             } else {
+                
                 $this->view->response("Atributo no válido en sort_by y/o en order", 400);
             }
             
+        } elseif (isset($filter) && isset($data)) {
+            
+            $santos = $this->model->getSantos(null, null, $filter, $data);
+
+            if (empty($santos)) {
+
+                $this->view->response("No hay ningún santo de ese $filter", 400);
+
+            } else {
+
+                $this->view->response($santos);
+            }
+            
         } else {
+
             $santos = $this->model->getSantos();
             $this->view->response($santos);
         }

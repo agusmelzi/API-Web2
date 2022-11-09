@@ -3,19 +3,30 @@
 class santoModel
 {
     private $db;
+    private $select;
 
     public function __construct()
     {
         $this->db = new PDO('mysql:host=localhost;' . 'dbname=santoral;charset=utf8', 'root', '');
+        $this->select = 'SELECT * FROM santo'; //¿ESTO ES BUENA PRÁCTICA?
     }
 
-    function getSantos($attribute = null, $order = null)
+    function getSantos($attribute = null, $order = null, $filter = null, $data = null)
     {
         if ($attribute != null && $order != null) {
-            $sentencia = $this->db->prepare("select * FROM santo ORDER BY $attribute $order");
+
+            $sentencia = $this->db->prepare("$this->select ORDER BY $attribute $order");
+            //preguntar si no hay que hacerlo con los ?
             $sentencia->execute();
+
+        } elseif ($filter != null && $data != null) {
+
+            $sentencia = $this->db->prepare("$this->select where $filter = ?"); //preguntar
+            $sentencia->execute(array($data));
+
         } else {
-            $sentencia = $this->db->prepare("select * from santo");
+
+            $sentencia = $this->db->prepare($this->select);
             $sentencia->execute();
         }
 
@@ -25,7 +36,7 @@ class santoModel
     function getSanto($id)
     {
 
-        $sentencia = $this->db->prepare("select * from santo WHERE id=?");
+        $sentencia = $this->db->prepare("$this->select WHERE id=?");
         $sentencia->execute(array($id));
 
         return $sentencia->fetch(PDO::FETCH_ASSOC);
@@ -69,8 +80,7 @@ class santoModel
         foto = ?,
         fotoNombre = ?
         WHERE id = ?");
-      $sentencia->execute(array($nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion,'', '', $id));
-
+        $sentencia->execute(array($nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, '', '', $id));
     }
 
     function borrarSanto($id)
