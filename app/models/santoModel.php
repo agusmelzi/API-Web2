@@ -11,7 +11,7 @@ class santoModel
         $this->select = 'SELECT * FROM santo'; //¿ESTO ES BUENA PRÁCTICA?
     }
 
-    function getSantos($attribute = null, $order = null, $filter = null, $data = null)
+    function getSantos($attribute = null, $order = null, $filter = null, $data = null, $size = null, $offset = null)
     {
         if ($attribute != null && $order != null) {
 
@@ -23,6 +23,16 @@ class santoModel
 
             $sentencia = $this->db->prepare("$this->select where $filter = ?"); //preguntar
             $sentencia->execute(array($data));
+
+        } elseif (($size != null && $offset != null) || ($size != null && $offset == 0)) {
+            
+            if ($offset == 0) {
+                $sentencia = $this->db->prepare("$this->select limit $size");
+            } else {
+                $sentencia = $this->db->prepare("$this->select limit $size offset $offset");
+            }
+            
+            $sentencia->execute();    
 
         } else {
 

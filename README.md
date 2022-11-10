@@ -8,3 +8,6 @@ http://localhost/TPE2/api/santos?sort_by=fecha_canonizacion&order=desc
 
 Filtrar por país:
 http://localhost/TPE2/api/santos?filter=nombreAtributo&input=datoParticular
+
+Paginación:
+http://localhost/TPE2/api/santos?size=3&page=numeroDePagina

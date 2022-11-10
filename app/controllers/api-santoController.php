@@ -30,6 +30,8 @@ class apiSantoController
         $order = $_GET['order'];
         $filter = $_GET['filter'];
         $data = $_GET['input'];
+        $size = $_GET['size'];
+        $offset = 3*($_GET['page'] - 1);
         
         //preguntar por arreglo asociativo
 
@@ -59,7 +61,20 @@ class apiSantoController
 
                 $this->view->response($santos);
             }
+        
+        } elseif (isset($size) && isset($offset)) {
             
+            $santos = $this->model->getSantos(null, null, null, null, $size, $offset);
+
+            if (empty($santos)) {
+
+                $this->view->response("No hay más santos en la lista", 400);
+
+            } else {
+
+                $this->view->response($santos);
+            }    
+
         } else {
 
             $santos = $this->model->getSantos();
