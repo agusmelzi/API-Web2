@@ -31,6 +31,8 @@ class apiSantoController
         $filter = $_GET['filter'];
         $data = $_GET['input'];
         
+        //preguntar por arreglo asociativo
+
         if (isset($attribute) && isset($order)) {
 
             if (($attribute == 'nombre' || $attribute == 'pais' || $attribute == 'fecha_nacimiento'
