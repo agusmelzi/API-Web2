@@ -31,7 +31,7 @@ class apiSantoController
         $filter = $_GET['filter'];
         $data = $_GET['input'];
         $size = $_GET['size'];
-        $offset = 3*($_GET['page'] - 1);
+        $offset = $size*($_GET['page'] - 1);
         
         //preguntar por arreglo asociativo
 
@@ -166,6 +166,8 @@ class apiSantoController
             );
             $this->view->response($santo, 201);
 
+        } else {
+            $this->view->response('No se encontro un santo con ese ID', 404);
         }
 
         

@@ -8,7 +8,7 @@ class santoModel
     public function __construct()
     {
         $this->db = new PDO('mysql:host=localhost;' . 'dbname=santoral;charset=utf8', 'root', '');
-        $this->select = 'SELECT * FROM santo'; //¿ESTO ES BUENA PRÁCTICA?
+        $this->select = 'SELECT * FROM santo';
     }
 
     function getSantos($attribute = null, $order = null, $filter = null, $data = null, $size = null, $offset = null)
@@ -16,12 +16,11 @@ class santoModel
         if ($attribute != null && $order != null) {
 
             $sentencia = $this->db->prepare("$this->select ORDER BY $attribute $order");
-            //preguntar si no hay que hacerlo con los ?
             $sentencia->execute();
 
         } elseif ($filter != null && $data != null) {
 
-            $sentencia = $this->db->prepare("$this->select where $filter = ?"); //preguntar
+            $sentencia = $this->db->prepare("$this->select where $filter = ?");
             $sentencia->execute(array($data));
 
         } elseif (($size != null && $offset != null) || ($size != null && $offset == 0)) {
