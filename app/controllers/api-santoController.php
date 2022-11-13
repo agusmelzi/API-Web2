@@ -32,10 +32,58 @@ class apiSantoController
         $data = $_GET['input'];
         $size = $_GET['size'];
         $offset = $size*($_GET['page'] - 1);
+
+        $message = '';
+
+        if (isset($attribute) && isset($order)) {
+
+            if (($attribute == 'nombre' || $attribute == 'pais' || $attribute == 'fecha_nacimiento'
+            || $attribute == 'fecha_muerte' || $attribute == 'fecha_canonizacion') && 
+            ($order == 'asc' || $order == 'desc')) {
+
+            } else {
+                $message .= "Atributo no válido en sort_by y/o en order";
+                $this->view->response($message, 400);
+
+            }
+        }
+
+        if (isset($filter) && isset($data)) {
+            
+            $santos = $this->model->getSantos($attribute, $order, $filter, $data, $size, $offset);
+
+            if (empty($santos)) {
+
+                $message .= "No hay ningún santo de ese $filter \n";
+
+            }
+        
+        }
+
+        if (isset($size) && isset($offset)) {
+            
+            $santos = $this->model->getSantos($attribute, $order, $filter, $data, $size, $offset);
+
+            if (empty($santos)) {
+
+                $message .= "No hay más santos en la lista";
+
+            }
+        }
+
+
+        $santos = $this->model->getSantos($attribute, $order, $filter, $data, $size, $offset);
+
+        if (empty($santos)) {
+            $this->view->response($message, 400);
+        } else {
+            $this->view->response($santos);            
+        }
+
         
         //preguntar por arreglo asociativo
 
-        if (isset($attribute) && isset($order)) {
+        /*if (isset($attribute) && isset($order)) {
 
             if (($attribute == 'nombre' || $attribute == 'pais' || $attribute == 'fecha_nacimiento'
             || $attribute == 'fecha_muerte' || $attribute == 'fecha_canonizacion') && 
@@ -79,7 +127,7 @@ class apiSantoController
 
             $santos = $this->model->getSantos();
             $this->view->response($santos);
-        }
+        }*/
     }
 
     function detalle($params = null)
@@ -120,6 +168,7 @@ class apiSantoController
     {
 
         $santo = $this->getData();
+        
 
         if (
             empty($santo->nombre) || empty($santo->pais) || empty($santo->fecha_nacimiento)

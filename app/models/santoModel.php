@@ -8,36 +8,43 @@ class santoModel
     public function __construct()
     {
         $this->db = new PDO('mysql:host=localhost;' . 'dbname=santoral;charset=utf8', 'root', '');
-        $this->select = 'SELECT * FROM santo';
     }
 
     function getSantos($attribute = null, $order = null, $filter = null, $data = null, $size = null, $offset = null)
     {
+        $params = [];
+        $query = "SELECT * FROM santo";
+
+        if ($filter != null && $data != null) {
+
+            $query .= " where $filter = ?";
+            array_push($params,$data);
+            //$sentencia->execute(array($data));
+
+        }
+
         if ($attribute != null && $order != null) {
 
-            $sentencia = $this->db->prepare("$this->select ORDER BY $attribute $order");
-            $sentencia->execute();
+            $query .= " ORDER BY $attribute $order";
+            //$sentencia->execute();
 
-        } elseif ($filter != null && $data != null) {
-
-            $sentencia = $this->db->prepare("$this->select where $filter = ?");
-            $sentencia->execute(array($data));
-
-        } elseif (($size != null && $offset != null) || ($size != null && $offset == 0)) {
+        } 
+        
+        if (($size != null && $offset != null) || ($size != null && $offset == 0)) {
             
             if ($offset == 0) {
-                $sentencia = $this->db->prepare("$this->select limit $size");
+                $query .= " limit $size";
             } else {
-                $sentencia = $this->db->prepare("$this->select limit $size offset $offset");
+                $query .= " limit $size offset $offset";
             }
             
-            $sentencia->execute();    
+            //$sentencia->execute();    
 
-        } else {
-
-            $sentencia = $this->db->prepare($this->select);
-            $sentencia->execute();
         }
+        
+        $sentencia = $this->db->prepare($query);
+        $sentencia->execute($params);
+        
 
         return $sentencia->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -45,7 +52,7 @@ class santoModel
     function getSanto($id)
     {
 
-        $sentencia = $this->db->prepare("$this->select WHERE id=?");
+        $sentencia = $this->db->prepare("SELECT * from santo WHERE id=?");
         $sentencia->execute(array($id));
 
         return $sentencia->fetch(PDO::FETCH_ASSOC);
