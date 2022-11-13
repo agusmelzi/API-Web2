@@ -3,7 +3,6 @@
 class santoModel
 {
     private $db;
-    private $select;
 
     public function __construct()
     {
@@ -19,14 +18,12 @@ class santoModel
 
             $query .= " where $filter = ?";
             array_push($params,$data);
-            //$sentencia->execute(array($data));
 
         }
 
         if ($attribute != null && $order != null) {
 
             $query .= " ORDER BY $attribute $order";
-            //$sentencia->execute();
 
         } 
         
@@ -36,9 +33,7 @@ class santoModel
                 $query .= " limit $size";
             } else {
                 $query .= " limit $size offset $offset";
-            }
-            
-            //$sentencia->execute();    
+            } 
 
         }
         
@@ -58,17 +53,6 @@ class santoModel
         return $sentencia->fetch(PDO::FETCH_ASSOC);
     }
 
-
-    function getSantosXCategoria($categoria)
-    {
-
-        $sentencia = $this->db->prepare("select * from santo WHERE congregacion_fk=?");
-        $sentencia->execute(array($categoria));
-
-        return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-
     function insertSanto($nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, $name = null, $tmp = null)
     {
 
@@ -79,7 +63,6 @@ class santoModel
 
 
         return $this->db->lastInsertId();
-        //return $sentencia->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function editSanto($id, $nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, $name = null, $tmp = null)

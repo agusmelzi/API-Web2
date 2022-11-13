@@ -15,7 +15,6 @@ class apiSantoController
         $this->model = new santoModel();
         $this->view = new ApiView();
 
-        // lee el body del request
         $this->data = file_get_contents("php://input");
     }
 
@@ -24,6 +23,8 @@ class apiSantoController
         return json_decode($this->data);
     }
 
+    //preguntar por arreglo asociativo
+    
     function home($params = null)
     {
         $attribute = $_GET['sort_by'];
@@ -80,89 +81,19 @@ class apiSantoController
             $this->view->response($santos);            
         }
 
-        
-        //preguntar por arreglo asociativo
-
-        /*if (isset($attribute) && isset($order)) {
-
-            if (($attribute == 'nombre' || $attribute == 'pais' || $attribute == 'fecha_nacimiento'
-            || $attribute == 'fecha_muerte' || $attribute == 'fecha_canonizacion') && 
-            ($order == 'asc' || $order == 'desc')) {
-
-                $santos = $this->model->getSantos($attribute, $order);
-                $this->view->response($santos);
-
-            } else {
-                
-                $this->view->response("Atributo no válido en sort_by y/o en order", 400);
-            }
-            
-        } elseif (isset($filter) && isset($data)) {
-            
-            $santos = $this->model->getSantos(null, null, $filter, $data);
-
-            if (empty($santos)) {
-
-                $this->view->response("No hay ningún santo de ese $filter", 400);
-
-            } else {
-
-                $this->view->response($santos);
-            }
-        
-        } elseif (isset($size) && isset($offset)) {
-            
-            $santos = $this->model->getSantos(null, null, null, null, $size, $offset);
-
-            if (empty($santos)) {
-
-                $this->view->response("No hay más santos en la lista", 400);
-
-            } else {
-
-                $this->view->response($santos);
-            }    
-
-        } else {
-
-            $santos = $this->model->getSantos();
-            $this->view->response($santos);
-        }*/
     }
 
     function detalle($params = null)
     {
         $id = $params[':ID'];
         $santo = $this->model->getSanto($id);
-        //$congregacion = $this->modelC->getCongregacion($santo['congregacion_fk']);
 
         if ($santo) {
-            $this->view->response($santo); //, $congregacion);
+            $this->view->response($santo);
         } else {
             $this->view->response("El santo con el id=$id no existe", 404);
         }
     }
-
-
-    /*function santosXCategoria()
-    {
-        $categoria = $_POST['congregacion_fk'];
-        $congregaciones = $this->modelC->getCongregaciones();
-
-        $santos = $this->model->getSantosXCategoria($categoria);
-        if ($santos == null) {
-            $this->view->showList($santos, $congregaciones, 'No hay santos de esta congregación');
-        } else {
-            $this->view->showList($santos, $congregaciones);
-        }
-    }*/
-
-    /*function createSaint()
-    {
-        $congregaciones = $this->modelC->getCongregaciones();
-        $this->view->addNewSaint($congregaciones);
-    }*/
-
 
     function addSaint($params = null)
     {
@@ -189,14 +120,6 @@ class apiSantoController
         }
     }
 
-    /*function editSaint($param)
-    {
-
-        $congregaciones = $this->modelC->getCongregaciones();
-        $santo = $this->model->editarSantos($param[0]);
-        $this->view->editSaint($congregaciones, $santo);
-    }*/
-
     function editarSanto($params = null)
     {
 
@@ -219,7 +142,6 @@ class apiSantoController
             $this->view->response('No se encontro un santo con ese ID', 404);
         }
 
-        
     }
 
     function delete($params = null)
