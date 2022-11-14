@@ -2,11 +2,13 @@
 
 require_once './app/models/santoModel.php';
 require_once './app/views/apiView.php';
+require_once './app/helpers/auth-apiHelper.php';
 
 class apiSantoController
 {
     private $model;
     private $view;
+    private $authHelper;
 
     private $data;
 
@@ -14,6 +16,7 @@ class apiSantoController
     {
         $this->model = new santoModel();
         $this->view = new ApiView();
+        $this->authHelper = new AuthApiHelper();
 
         $this->data = file_get_contents("php://input");
     }
@@ -97,10 +100,13 @@ class apiSantoController
 
     function addSaint($params = null)
     {
+        if(!$this->authHelper->isLoggedIn()){
+            $this->view->response("No estas logeado", 401);
+            return;
+        }        
 
         $santo = $this->getData();
         
-
         if (
             empty($santo->nombre) || empty($santo->pais) || empty($santo->fecha_nacimiento)
             || empty($santo->fecha_muerte) || empty($santo->fecha_canonizacion) || empty($santo->congregacion_fk)
@@ -124,6 +130,12 @@ class apiSantoController
     {
 
         $id = $params[':ID'];
+
+        if(!$this->authHelper->isLoggedIn()){
+            $this->view->response("No estas logeado", 401);
+            return;
+        }
+
         $santo = $this->model->getSanto($id);
         if ($santo) {
             $santo = $this->getData();
@@ -147,6 +159,11 @@ class apiSantoController
     function delete($params = null)
     {
         $id = $params[':ID'];
+
+        if(!$this->authHelper->isLoggedIn()){
+            $this->view->response("No estas logeado", 401);
+            return;
+        }
 
         $santo = $this->model->getSanto($id);
         if ($santo) {
