@@ -2,7 +2,7 @@
 
 class AuthApiHelper {
     function getToken(){
-        $auth = $this->getAuthHeader(); // Bearer header.payload.signature
+        $auth = $this->getAuthHeader();
         $auth = explode(" ", $auth);
         if($auth[0]!="Bearer" || count($auth) != 2){
             return array();

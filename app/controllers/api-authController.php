@@ -20,7 +20,6 @@ class AuthApiController {
         $this->view = new ApiView();
         $this->authHelper = new AuthApiHelper();
         
-        // lee el body del request
         $this->data = file_get_contents("php://input");
     }
 
@@ -29,26 +28,25 @@ class AuthApiController {
     }
 
     public function getToken($params = null) {
-        // Obtener "Basic base64(user:pass)
+
         $basic = $this->authHelper->getAuthHeader();
         
         if(empty($basic)){
             $this->view->response('No autorizado', 401);
             return;
         }
-        $basic = explode(" ",$basic); // ["Basic" "base64(user:pass)"]
+        $basic = explode(" ",$basic);
         if($basic[0]!="Basic"){
             $this->view->response('La autenticación debe ser Basic', 401);
             return;
         }
 
-        //validar usuario:contraseña
-        $userpass = base64_decode($basic[1]); // user:pass
+        $userpass = base64_decode($basic[1]);
         $userpass = explode(":", $userpass);
         $user = $userpass[0];
         $pass = $userpass[1];
         if($user == "admin" && $pass == "1234"){
-            //  crear un token
+
             $header = array(
                 'alg' => 'HS256',
                 'typ' => 'JWT'

@@ -17,29 +17,26 @@ class saintModel
         if ($filter != null && $data != null) {
 
             $query .= " where $filter = ?";
-            array_push($params,$data);
-
+            array_push($params, $data);
         }
 
         if ($attribute != null && $order != null) {
 
             $query .= " ORDER BY $attribute $order";
+        }
 
-        } 
-        
         if (($size != null && $offset != null) || ($size != null && $offset == 0)) {
-            
+
             if ($offset == 0) {
                 $query .= " limit $size";
             } else {
                 $query .= " limit $size offset $offset";
-            } 
-
+            }
         }
-        
+
         $sentence = $this->db->prepare($query);
         $sentence->execute($params);
-        
+
 
         return $sentence->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -89,7 +86,8 @@ class saintModel
         $sentence->execute(array($id));
     }
 
-    function getColumns() {
+    function getColumns()
+    {
         $columns = [];
         $sentence = $this->db->prepare("show columns from santo");
         $sentence->execute();
@@ -101,7 +99,8 @@ class saintModel
         return $columns;
     }
 
-    function getCongregations() {
+    function getCongregations()
+    {
         $sentence = $this->db->prepare("SELECT * from congregacion");
         $sentence->execute();
 
