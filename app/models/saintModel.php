@@ -1,6 +1,6 @@
 <?php
 
-class santoModel
+class saintModel
 {
     private $db;
 
@@ -9,7 +9,7 @@ class santoModel
         $this->db = new PDO('mysql:host=localhost;' . 'dbname=santoral;charset=utf8', 'root', '');
     }
 
-    function getSantos($attribute = null, $order = null, $filter = null, $data = null, $size = null, $offset = null)
+    function getSaints($attribute = null, $order = null, $filter = null, $data = null, $size = null, $offset = null)
     {
         $params = [];
         $query = "SELECT * FROM santo";
@@ -44,7 +44,7 @@ class santoModel
         return $sentencia->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function getSanto($id)
+    function getSaint($id)
     {
 
         $sentencia = $this->db->prepare("SELECT * from santo WHERE id=?");
@@ -53,7 +53,7 @@ class santoModel
         return $sentencia->fetch(PDO::FETCH_ASSOC);
     }
 
-    function insertSanto($nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, $name = null, $tmp = null)
+    function insertSaint($nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, $name = null, $tmp = null)
     {
 
         $sentencia = $this->db->prepare("INSERT INTO santo(
@@ -65,7 +65,7 @@ class santoModel
         return $this->db->lastInsertId();
     }
 
-    function editSanto($id, $nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, $name = null, $tmp = null)
+    function editSaint($id, $nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, $name = null, $tmp = null)
     {
 
 
@@ -87,5 +87,17 @@ class santoModel
 
         $sentencia = $this->db->prepare("delete from santo where id=?");
         $sentencia->execute(array($id));
+    }
+
+    function getColumns() {
+        $columns = [];
+        $query = $this->db->prepare("show columns from santo");
+        $query->execute();
+        $columnsName = $query->fetchAll(PDO::FETCH_OBJ);
+        foreach ($columnsName as $column) {
+            $columnName = $column->Field;
+            array_push($columns, $columnName);
+        }
+        return $columns;
     }
 }

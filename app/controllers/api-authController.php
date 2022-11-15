@@ -1,6 +1,6 @@
 <?php 
 
-require_once './app/models/santoModel.php';
+require_once './app/models/saintModel.php';
 require_once './app/views/apiView.php';
 require_once './app/helpers/auth-apiHelper.php';
 
@@ -10,14 +10,13 @@ function base64url_encode($data) {
 
 
 class AuthApiController {
-    private $model;
+
     private $view;
     private $authHelper;
 
     private $data;
 
     public function __construct() {
-        //$this->model = new TaskModel();
         $this->view = new ApiView();
         $this->authHelper = new AuthApiHelper();
         
