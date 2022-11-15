@@ -12,6 +12,10 @@ En la misma se pueden realizar acciones como:
 Para esto se describirán a continuación los correspondientes endpoints
 ```
 
+## Requerimientos :warning:
+
+Importar desde phpMyAdmin (o desde otro administrador de bases de datos) la base de datos ubicada en 'database/santoral.sql'
+
 ## Servicio GET
 
 ### Para listar la colección entera de santos:
