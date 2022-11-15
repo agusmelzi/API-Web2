@@ -2,7 +2,13 @@
 
 ```
 Esta es una API RESTful de santos.
-En la misma se pueden realizar acciones como filtrar y/o ordenar y/o paginar.
+En la misma se pueden realizar acciones como:
+* Listar todos los santos
+* Listar todas las congregaciones 
+* filtrar y/o ordenar y/o paginar
+* Insertar santos
+* Modificar datos de santos
+* Eliminar santos
 Para esto se describirán a continuación los correspondientes endpoints
 ```
 
