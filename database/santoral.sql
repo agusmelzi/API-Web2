@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 15-11-2022 a las 23:04:04
+-- Tiempo de generación: 16-11-2022 a las 00:37:22
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -20,6 +20,31 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `santoral`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `congregacion`
+--
+
+CREATE TABLE `congregacion` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `fundador` varchar(100) NOT NULL,
+  `lema` varchar(400) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `congregacion`
+--
+
+INSERT INTO `congregacion` (`id`, `nombre`, `fundador`, `lema`) VALUES
+(3, 'Franciscanos', 'San Francisco de Asís', 'Pax et bonum'),
+(5, 'Dominicos', 'Santo Domingo de Guzmán', 'Laudare, benedicere, praedicare'),
+(8, 'Jesuitas', 'San Ignacio de Loyola', 'Ad maiorem Dei gloriam'),
+(9, 'Benedictinos', 'San Benito de Nursia', 'Ora et labora'),
+(10, 'Salesianos', 'San Juan Bosco', 'Da mihi animas caetera tolle'),
+(11, 'Carmelitas', 'Grupo de ermitaños', 'Zelo zelatus sum pro Domino Deo Exercituum');
 
 -- --------------------------------------------------------
 
@@ -58,9 +83,37 @@ INSERT INTO `santo` (`id`, `nombre`, `pais`, `fecha_nacimiento`, `fecha_muerte`,
 (27, 'Domingo Savio', 'Italia', '1842-04-12', '1857-03-09', '1950-03-05', 10, '', ''),
 (28, 'Artémides Zatti', 'Italia', '1880-10-12', '1951-03-15', '2022-10-09', 10, '', '');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(40) NOT NULL,
+  `pass` varchar(400) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id`, `nombre`, `pass`) VALUES
+(1, 'Agustín', '$2y$10$BYuyO0nDvreQsR.x6lTrn.3yCIP8bi6nlNLIsluO.3eIeEOW7KYE.'),
+(6, 'Emilio', '$2y$10$/fVE.cH6E1qt4KJy7EgAau6ZbPlY2TTsFGlkAOAKOvWfS5YPz3QNq'),
+(7, 'Juan', '$2y$10$gMbzzMaATqodJoRFCASBmeT18viY7R1K/Evzn7GApL/f33JD9PXBS'),
+(8, 'Admin', '$2y$10$ZoPWMFlxVL5xotkXoy7eAO4Dzli3lDt4GYoAfiaBL.r76fMADFzba');
+
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `congregacion`
+--
+ALTER TABLE `congregacion`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `santo`
@@ -70,14 +123,32 @@ ALTER TABLE `santo`
   ADD KEY `congragacion_fk` (`congregacion_fk`);
 
 --
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `congregacion`
+--
+ALTER TABLE `congregacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `santo`
 --
 ALTER TABLE `santo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
