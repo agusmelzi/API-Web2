@@ -36,19 +36,19 @@ class apiSaintController
         $offset = $size*($_GET['page'] - 1) ?? null;
 
         $message = '';
-
+        
+        $columns = $this->model->getColumns();
         if ($attribute != null && $order != null) {
 
-            $columns = $this->model->getColumns();
-            $setted = false;
-            
+            $attributeSetted = false;
+
             foreach ($columns as $field) {
                 if ($attribute == $field) {
-                    $setted = true;
+                    $attributeSetted = true;
                 }
             }
 
-            if (($setted == true) && ($order == 'asc' || $order == 'desc')) {
+            if (($attributeSetted == true) && ($order == 'asc' || $order == 'desc')) {
 
             } else {
                 $message .= "Atributo no válido en sort_by y/o en order";
@@ -59,13 +59,30 @@ class apiSaintController
 
         if ($filter != null && $data != null) {
             
-            $saints = $this->model->getSaints($attribute, $order, $filter, $data, $size, $offset);
-
-            if (empty($saints)) {
-
-                $message .= "No hay ningún santo de ese $filter \n";
-
+            //$columns = $this->model->getColumns();
+            $filterSetted = false;
+            
+            foreach ($columns as $field) {
+                if ($filter == $field) {
+                    $filterSetted = true;
+                }
             }
+
+            if ($filterSetted == true) {
+                $saints = $this->model->getSaints($attribute, $order, $filter, $data, $size, $offset);
+
+                if (empty($saints)) {
+
+                    $message .= "No hay ningún santo de ese $filter \n";
+    
+                }
+            } else {
+                $message .= "El filter ingresado no corresponde a ningún campo de la tabla \n";
+                $this->view->response($message, 400);
+            }
+
+
+            
         
         }
 
