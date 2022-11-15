@@ -10,11 +10,11 @@ Para esto se describirán a continuación los correspondientes endpoints
 
 ### Para listar la colección entera de santos:
 ```
-http://localhost/API-Web2/api/santos
+**http://localhost/API-Web2/api/santos**
 ```
 ### Para ordenar por un campo de la tabla:
 ```
-http://localhost/API-Web2/api/santos?sort_by=nombreDelCampo&order=AscendenteODescendente
+**http://localhost/API-Web2/api/santos?sort_by=nombreDelCampo&order=AscendenteODescendente**
 ```
 Ejemplos:
 ```
@@ -24,7 +24,7 @@ http://localhost/API-Web2/api/santos?sort_by=fecha_nacimiento&order=asc
 
 ### Para filtrar por alguno de los campos de la tabla:
 ```
-http://localhost/API-Web2/api/santos?filter=nombreDelCampo&input=datoParticular
+**http://localhost/API-Web2/api/santos?filter=nombreDelCampo&input=datoParticular**
 ```
 Ejemplos:
 ```
@@ -34,7 +34,7 @@ http://localhost/API-Web2/api/santos?filter=congregacion_fk&input=italia
 
 ### Para paginar:
 ```
-http://localhost/API-Web2/api/santos?size=cantidadDeElementosAMostrar&page=numeroDePagina
+**http://localhost/API-Web2/api/santos?size=cantidadDeElementosAMostrar&page=numeroDePagina**
 ```
 Ejemplos:
 ```
