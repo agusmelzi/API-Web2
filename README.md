@@ -5,7 +5,7 @@ Esta es una API RESTful de santos.
 En la misma se pueden realizar acciones como:
 * Listar todos los santos
 * Listar todas las congregaciones 
-* filtrar y/o ordenar y/o paginar
+* filtrar y/o ordenar y/o paginar la colección de santos
 * Insertar santos
 * Modificar datos de santos
 * Eliminar santos
