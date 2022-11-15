@@ -8,11 +8,13 @@ require_once './app/controllers/api-authController.php';
 $router = new Router();
 
 // defina la tabla de ruteo
-$router->addRoute('santos', 'GET', 'apiSaintController', 'home');
-$router->addRoute('santos/:ID', 'GET', 'apiSaintController', 'detail');
-$router->addRoute('santos/:ID', 'DELETE', 'apiSaintController', 'delete');
-$router->addRoute('santos', 'POST', 'apiSaintController', 'addSaint');
-$router->addRoute('santos/:ID', 'PUT', 'apiSaintController', 'editSaint');
+$router->addRoute('saints', 'GET', 'apiSaintController', 'home');
+$router->addRoute('saints/:ID', 'GET', 'apiSaintController', 'detail');
+$router->addRoute('saints/:ID', 'DELETE', 'apiSaintController', 'delete');
+$router->addRoute('saints', 'POST', 'apiSaintController', 'addSaint');
+$router->addRoute('saints/:ID', 'PUT', 'apiSaintController', 'editSaint');
+
+$router->addRoute('congregations', 'GET', 'apiSaintController', 'getCongregations');
 
 $router->addRoute('token', 'GET', 'AuthApiController', 'getToken');
 

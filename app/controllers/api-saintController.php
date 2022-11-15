@@ -58,8 +58,7 @@ class apiSaintController
         }
 
         if ($filter != null && $data != null) {
-            
-            //$columns = $this->model->getColumns();
+
             $filterSetted = false;
             
             foreach ($columns as $field) {
@@ -81,9 +80,6 @@ class apiSaintController
                 $this->view->response($message, 400);
             }
 
-
-            
-        
         }
 
         if ($size != null && $offset != null) {
@@ -106,6 +102,11 @@ class apiSaintController
             $this->view->response($saints);            
         }
 
+    }
+
+    function getCongregations() {
+        $congregations = $this->model->getCongregations();
+        $this->view->response($congregations);
     }
 
     function detail($params = null)

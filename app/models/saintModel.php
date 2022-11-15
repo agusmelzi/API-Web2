@@ -37,29 +37,29 @@ class saintModel
 
         }
         
-        $sentencia = $this->db->prepare($query);
-        $sentencia->execute($params);
+        $sentence = $this->db->prepare($query);
+        $sentence->execute($params);
         
 
-        return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        return $sentence->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function getSaint($id)
     {
 
-        $sentencia = $this->db->prepare("SELECT * from santo WHERE id=?");
-        $sentencia->execute(array($id));
+        $sentence = $this->db->prepare("SELECT * from santo WHERE id=?");
+        $sentence->execute(array($id));
 
-        return $sentencia->fetch(PDO::FETCH_ASSOC);
+        return $sentence->fetch(PDO::FETCH_ASSOC);
     }
 
     function insertSaint($nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, $name = null, $tmp = null)
     {
 
-        $sentencia = $this->db->prepare("INSERT INTO santo(
+        $sentence = $this->db->prepare("INSERT INTO santo(
                 nombre, pais, fecha_nacimiento, fecha_muerte, fecha_canonizacion, congregacion_fk, foto, fotoNombre) 
                 VALUES (?,?,?,?,?,?,?,?)");
-        $sentencia->execute(array($nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, '', ''));
+        $sentence->execute(array($nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, '', ''));
 
 
         return $this->db->lastInsertId();
@@ -69,7 +69,7 @@ class saintModel
     {
 
 
-        $sentencia = $this->db->prepare("UPDATE santo SET
+        $sentence = $this->db->prepare("UPDATE santo SET
         nombre = ?,
         pais = ?,
         fecha_nacimiento = ?,
@@ -79,25 +79,32 @@ class saintModel
         foto = ?,
         fotoNombre = ?
         WHERE id = ?");
-        $sentencia->execute(array($nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, '', '', $id));
+        $sentence->execute(array($nombre, $pais, $fecha_nac, $fecha_muerte, $fecha_canon, $congregacion, '', '', $id));
     }
 
     function borrarSanto($id)
     {
 
-        $sentencia = $this->db->prepare("delete from santo where id=?");
-        $sentencia->execute(array($id));
+        $sentence = $this->db->prepare("delete from santo where id=?");
+        $sentence->execute(array($id));
     }
 
     function getColumns() {
         $columns = [];
-        $query = $this->db->prepare("show columns from santo");
-        $query->execute();
-        $columnsName = $query->fetchAll(PDO::FETCH_OBJ);
+        $sentence = $this->db->prepare("show columns from santo");
+        $sentence->execute();
+        $columnsName = $sentence->fetchAll(PDO::FETCH_OBJ);
         foreach ($columnsName as $column) {
             $columnName = $column->Field;
             array_push($columns, $columnName);
         }
         return $columns;
+    }
+
+    function getCongregations() {
+        $sentence = $this->db->prepare("SELECT * from congregacion");
+        $sentence->execute();
+
+        return $sentence->fetchAll(PDO::FETCH_ASSOC);
     }
 }
